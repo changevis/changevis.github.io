@@ -1,0 +1,12 @@
+import pandas as pd
+
+studentScore = pd.read_csv("students.csv")
+studentScore.id = studentScore.id.str.extract('(\d+)')
+studentScore.drop_duplicates(inplace=True)
+studentScore.loc[:, 'total'] = studentScore.math + studentScore.art
+studentScore.loc[studentScore['total'] < 120, 'rate'] = 'F'
+studentScore.loc[(studentScore['total'] >= 120) & (studentScore['total'] < 140) , 'rate'] = 'D'
+studentScore.loc[(studentScore['total'] >= 140) & (studentScore['total'] < 160) , 'rate'] = 'C'
+studentScore.loc[(studentScore['total'] >= 160) & (studentScore['total'] < 180) , 'rate'] = 'B'
+studentScore.loc[studentScore['total'] >= 180 , 'rate'] = 'A'
+studentScore = studentScore.sort_values("total", ascending = False)
